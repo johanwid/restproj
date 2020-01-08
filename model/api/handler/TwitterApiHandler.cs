@@ -1,12 +1,9 @@
 using System;
 
-namespace handler
+namespace model
 {
-    class TwitterApiHandler : IApiHandler
+    class TwitterApiHandler
     {
-        public void Main()
-        {
-            Console.WriteLine("howdy");
-        }
+        // https://rapidapi.com/blog/how-to-use-the-twitter-api-with-c-net/
     }
 }

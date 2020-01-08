@@ -1,32 +1,28 @@
 using System;
+using System.Collections.Generic;
+using model;
+using view;
+using logger;
 
 namespace controller
 {
     public class Controller
     {
-        private Model _model;
+        private static IModel _model;
+        private static IView _view;
+        ILogger _logger = new logger.Logger("logtest.db3");
 
-        private View _view;
-
-        public Controller() 
+        public Controller()
         {
-            _model = new Model(new IModel2ViewAdapter() {
-
-            }
-
-            _view = new View(new IView2ModelAdapter() {
-
-            }
+            _model = new Model(_logger);
+            _view = new View(_logger);
         }
 
         public void Start()
         {
-
-        }
-        
-        public static void Main()
-        {
-            
+            _view.Start();
+            Dictionary<String, String> input = _view.GetData();
+            _model.Start(input);
         }
     }
 }

@@ -1,40 +1,62 @@
 using System;
+using System.Net;
+using Newtonsoft.Json.Linq;
 
-namespace handler
+namespace model
 {
-
-    class AlphaVantageApiHandler
+    public class AlphaVantageApiHandler
     {
-        string _key; //"VL1S48SRTAXKY9W1"
+        String _key = "VL1S48SRTAXKY9W1";
+        String _ticker;
+        String _url;
 
-        string _symbol;
+        JObject _data;
 
-        string _timeseries;
-
-        public AlphaVantageApiHandler(string key)
+        public AlphaVantageApiHandler(String ticker)
         {
-            this._key = key;
+            this._ticker = ticker;
         }
 
-        public void SetSymbol(string symbol)
+        public String GetTicker()
         {
-            this._symbol = symbol;
-        }
-
-        public void SetTimeSeries(string timeseries)
-        {
-            this._timeseries = timeseries;
+            return this._ticker;
         }
 
         public String GetUrl()
         {
-            string url = "";
-            return url;
+            return this._url;
         }
 
-        public static void Main()
+        public JObject GetJson(String timeSeriesDesignation)
         {
-            Console.WriteLine("howdy");
+            using (WebClient wc = new WebClient())
+            {
+                var jsonString = wc.DownloadString(this._url);
+                JObject json = JObject.Parse(jsonString);
+                return (JObject)json[timeSeriesDesignation];
+            }
+        }
+
+        public JObject GetData()
+        {
+            return this._data;
+        }
+
+        public void ConstructUrl(String timeSeries, String datatype = "json")
+        {
+            String url = "https://www.alphavantage.co/query?";
+            url += "function=";
+            url += "TIME_SERIES_";
+            url += timeSeries;
+            url += "&symbol=";
+            url += _ticker;
+            url += "&interval=";
+            url += "1min";
+            url += "&apikey=";
+            url += _key;
+            url += "&datatype=";
+            url += datatype; // csv or json
+            this._url = url;
         }
     }
 }

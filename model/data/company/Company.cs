@@ -1,15 +1,18 @@
 using System;
 
-public class Company
+namespace model
 {
-    string _name;
-    string _symbol;
-    string _category;
-
-    public Company(string name, string symbol, string category)
+    public class Company
     {
-        this._name = name;
-        this._symbol = symbol;
-        this._category = category;
+        string _name;
+        string _symbol;
+        string _category;
+
+        public Company(string name, string symbol, string category)
+        {
+            this._name = name;
+            this._symbol = symbol;
+            this._category = category;
+        }
     }
 }

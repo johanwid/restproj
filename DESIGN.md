@@ -14,8 +14,12 @@ ideas
 
 structure/classes
 
-/inp
+view
 - class?: takes in user input of ticker symbol
+
+model
+- returns a json of results for a ticker
+  - can be used as a rest api result
 /api
 /api/handler
 - interface: api handler: takes in url, key

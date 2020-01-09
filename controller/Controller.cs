@@ -23,6 +23,8 @@ namespace controller
             _view.Start();
             Dictionary<String, String> input = _view.GetData();
             _model.Start(input);
+            Dictionary<String, String> output = _model.GetOutput();
+            _view.Finish(output);
         }
     }
 }

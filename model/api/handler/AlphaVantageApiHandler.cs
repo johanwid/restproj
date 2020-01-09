@@ -9,7 +9,6 @@ namespace model
         String _key = "VL1S48SRTAXKY9W1";
         String _ticker;
         String _url;
-
         JObject _data;
 
         public AlphaVantageApiHandler(String ticker)
@@ -27,19 +26,35 @@ namespace model
             return this._url;
         }
 
-        public JObject GetJson(String timeSeriesDesignation)
+        public void GetJson(String timeSeriesDesignation)
         {
             using (WebClient wc = new WebClient())
             {
                 var jsonString = wc.DownloadString(this._url);
                 JObject json = JObject.Parse(jsonString);
-                return (JObject)json[timeSeriesDesignation];
+                this._data = (JObject)json[timeSeriesDesignation];
             }
         }
 
         public JObject GetData()
         {
             return this._data;
+        }
+
+        public Double GetPrice()
+        {
+            Double closingPrice;
+            String hmm;
+            JToken recent = _data.First;
+            JObject hold = new JObject();
+            hold.Add(recent);
+            foreach (JProperty prop in hold.Properties())
+            {
+                hmm = (String)prop.Value["4. close"];
+                closingPrice = Double.Parse(hmm);
+                return closingPrice;
+            }
+            return 0.00;
         }
 
         public void ConstructUrl(String timeSeries, String datatype = "json")
